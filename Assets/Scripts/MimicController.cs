@@ -2,7 +2,7 @@
 using UnityEngine;
 using Valve.VR;
 
-public class Mimic : MonoBehaviour
+public class MimicController : MonoBehaviour
 {
     [Tooltip("The GameObject that should mimic this object's position")]
     public GameObject MimicObject;
