@@ -1,34 +1,33 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class MimicHead : MonoBehaviour
 {
     [Tooltip("The GameObject that should mimic this object's position")]
     public GameObject MimicObject;
 
-    [Tooltip("The preferred Z distance of the mimic object")]
-    public float MimicOffsetZ;
+    [Tooltip("The GameObject that when collided with will will add a point")]
+    public GameObject TargetObject;
 
     private Vector3 MimicPosition;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
+    private void Start() {
+        MimicPosition = MimicObject.transform.position;
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (transform.hasChanged)
         {
             MimicPosition.x = transform.position.x;
             MimicPosition.y = transform.position.y;
-            MimicPosition.z = transform.position.z + MimicOffsetZ;
             MimicObject.transform.position = MimicPosition;
-
             transform.hasChanged = false;
+        }
+    }
+
+    void OnCollisionEnter(Collision collision) {
+        if (collision.gameObject == TargetObject) {
+            Debug.Log("Score");
         }
     }
 }
