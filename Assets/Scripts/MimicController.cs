@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 
-public class MimicHead : MonoBehaviour
-{
+public class MimicController : MonoBehaviour {
     [Tooltip("The GameObject that should mimic this object's position")]
     public GameObject MimicObject;
 
@@ -14,20 +13,12 @@ public class MimicHead : MonoBehaviour
         MimicPosition = MimicObject.transform.position;
     }
 
-    void Update()
-    {
-        if (transform.hasChanged)
-        {
+    void Update() {
+        if (transform.hasChanged) {
             MimicPosition.x = transform.position.x;
             MimicPosition.y = transform.position.y;
             MimicObject.transform.position = MimicPosition;
             transform.hasChanged = false;
         }
     }
-
-    //void OnCollisionEnter(Collision collision) {
-    //    if (collision.gameObject == TargetObject) {
-    //        Debug.Log("Score");
-    //    }
-    //}
 }

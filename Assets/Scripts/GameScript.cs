@@ -1,28 +1,26 @@
 ﻿using System;
 using TMPro;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class GameScript : MonoBehaviour
 {
     public GameObject MimicHead;
+    public GameObject MimicLeft;
+    public GameObject MimicRight;
     public GameObject TargetHead;
+    public GameObject TargetLeft;
+    public GameObject TargetRight;
     public GameObject TextCountdown;
     public GameObject TextRoundScore;
 
     private TextMeshPro textMeshCountdown;
     private TextMeshPro textMeshRoundScore;
 
-    /// <summary>
-    /// What the countdown should count down from (in milliseconds).
-    /// </summary>
     private float countdownMs = 4000;
-
     private DateTime countdownStartedTime;
-
     private float roundTimeMs = 2000;
-
     private bool isGameRunning;
-
 
     void Awake()
     {
@@ -79,6 +77,7 @@ public class GameScript : MonoBehaviour
     void StartRound() {
         //Debug.Log("Starting round");
 
+        MoveTargetsToRandomPosition();
 
         StartCountdown(roundTimeMs);
 
@@ -86,6 +85,33 @@ public class GameScript : MonoBehaviour
         if (isGameRunning) {
             Invoke("EndRound", roundTimeMs / 1000);
         } 
+    }
+
+    private void MoveTargetsToRandomPosition() {
+        // On the X-axis, the head can be anywhere between -0.5 and 0.5.
+        // On the Y-axis, the head can be anywhere between 0.9 and 1.7.
+
+        // On the X-axis, the left controller can be anywhere between -0.8 and -0.1 relative to the head.
+        // On the Y-axis, the left controller can be anywhere between -0.8 and 0.8 relative to the head.
+
+        // On the X-axis, the left controller can be anywhere between 0.1 and 0.8 relative to the head.
+        // On the Y-axis, the left controller can be anywhere between -0.8 and 0.8 relative to the head.
+
+        Vector3 targetHeadPos = TargetHead.transform.position;
+        Vector3 targetLeftPos = TargetLeft.transform.position;
+        Vector3 targetRightPos = TargetRight.transform.position;
+
+        targetHeadPos.x = Random.Range(-0.5f, 0.5f);
+        targetHeadPos.y = Random.Range(0.9f, 1.7f);
+
+        targetLeftPos.x = targetHeadPos.x + Random.Range(-0.8f, -0.1f);
+        targetLeftPos.y = targetHeadPos.y + Random.Range(-0.8f, 0.8f);
+        targetRightPos.x = targetHeadPos.x + Random.Range(0.1f, 0.8f);
+        targetRightPos.y = targetHeadPos.y + Random.Range(-0.8f, 0.8f);
+
+        TargetHead.transform.position = targetHeadPos;
+        TargetLeft.transform.position = targetLeftPos;
+        TargetRight.transform.position = targetRightPos;
     }
 
     void EndRound() {
